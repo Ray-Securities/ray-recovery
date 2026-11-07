@@ -1,0 +1,572 @@
+/*
+ * Shared styles for the Ray File Recovery support and legal pages (site/*.html).
+ *
+ * - System fonts only, and no external requests of any kind: no web fonts, scripts or trackers.
+ * - Colors are the Material 3 roles from docs/premium-roadmap.md §5, light first, with a full dark
+ *   theme that follows the system (the in-app browser tab follows it too).
+ * - Phone-first: 16px gutters, no horizontal scrolling at 320px, 44px or larger touch targets.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* Light color roles. */
+  --background: #f6faf9;
+  --surface: #ffffff;
+  --surface-container-low: #f0f5f4;
+  --surface-container-high: #e4e9e8;
+  --on-surface: #171d1c;
+  --on-surface-variant: #3f4947;
+  --outline-variant: #bec9c6;
+  --primary: #006a63;
+  --on-primary: #ffffff;
+  --primary-container: #9ff2e7;
+  --on-primary-container: #00201d;
+  --secondary-container: #cce8e4;
+  --on-secondary-container: #051f1d;
+  --tertiary-container: #cce5ff;
+  --on-tertiary-container: #001e30;
+  --warning-container: #ffdea6;
+  --on-warning-container: #261900;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Roboto Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+
+  --gutter: 16px;
+  --measure: 46rem;
+  --radius-xs: 4px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0e171c;
+    --surface: #162025;
+    --surface-container-low: #091216;
+    --surface-container-high: #242f34;
+    --on-surface: #dce4e8;
+    --on-surface-variant: #bec8cc;
+    --outline-variant: #3f484c;
+    --primary: #5dd5c9;
+    --on-primary: #003733;
+    --primary-container: #00504a;
+    --on-primary-container: #9ff2e7;
+    --secondary-container: #334b48;
+    --on-secondary-container: #cce8e4;
+    --tertiary-container: #2d4960;
+    --on-tertiary-container: #cce5ff;
+    --warning-container: #5c4200;
+    --on-warning-container: #ffdea6;
+  }
+}
+
+@media (min-width: 600px) {
+  :root {
+    --gutter: 24px;
+  }
+}
+
+/* Base */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--on-surface);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--on-surface);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 1.45rem + 1.5vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  margin: 2.5rem 0 0.75rem;
+  font-size: 1.375rem;
+  font-weight: 650;
+  scroll-margin-top: 1rem;
+}
+
+h3 {
+  margin: 1.5rem 0 0.5rem;
+  font-size: 1.0625rem;
+  font-weight: 650;
+  line-height: 1.4;
+  scroll-margin-top: 1rem;
+}
+
+p,
+ul,
+ol,
+dl {
+  margin: 0 0 1rem;
+}
+
+ul,
+ol {
+  padding-left: 1.375rem;
+}
+
+li + li {
+  margin-top: 0.375rem;
+}
+
+li > ul,
+li > ol {
+  margin: 0.375rem 0 0;
+}
+
+strong {
+  font-weight: 650;
+}
+
+a {
+  color: var(--primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+code {
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-xs);
+  background: var(--surface-container-high);
+  color: var(--on-surface);
+  font-family: var(--font-mono);
+  font-size: 0.8125em;
+  overflow-wrap: anywhere;
+}
+
+/* Skip link: hidden until focused with the keyboard. */
+
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: var(--gutter);
+  z-index: 10;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* Header and navigation */
+
+.site-header {
+  border-bottom: 1px solid var(--outline-variant);
+  background: var(--surface);
+}
+
+.site-header__inner,
+.page,
+.site-footer__inner {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding-right: var(--gutter);
+  padding-left: var(--gutter);
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 48px;
+  color: var(--on-surface);
+  font-size: 1.0625rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.brand__mark {
+  flex: none;
+  width: 32px;
+  height: 32px;
+}
+
+.nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0 0 0 -0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.nav li + li {
+  margin-top: 0;
+}
+
+.nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.75rem;
+  border-radius: var(--radius-full);
+  color: var(--on-surface-variant);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background: var(--surface-container-high);
+  color: var(--on-surface);
+}
+
+.nav a[aria-current="page"] {
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+  font-weight: 600;
+}
+
+@media (min-width: 600px) {
+  .nav ul {
+    margin-left: 0;
+  }
+}
+
+/* Page */
+
+.page {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.lede {
+  color: var(--on-surface-variant);
+  font-size: 1.125rem;
+}
+
+.meta {
+  color: var(--on-surface-variant);
+  font-size: 0.9375rem;
+}
+
+/* The short version at the top of each page. */
+.summary {
+  margin: 1.5rem 0 2rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+}
+
+.summary h2 {
+  margin: 0 0 0.5rem;
+  color: inherit;
+  font-size: 1.125rem;
+}
+
+.summary a {
+  color: inherit;
+}
+
+.summary > :last-child {
+  margin-bottom: 0;
+}
+
+/* "On this page" list. */
+.toc {
+  margin: 0 0 2rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.toc h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.toc ol {
+  margin: 0;
+}
+
+.card {
+  margin: 0 0 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.card > :last-child {
+  margin-bottom: 0;
+}
+
+/* Android permission names under a permission heading. */
+.permission-ids {
+  margin-bottom: 0.5rem;
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.callout {
+  margin: 1.25rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+}
+
+.callout--info {
+  background: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+}
+
+.callout--caution {
+  background: var(--warning-container);
+  color: var(--on-warning-container);
+}
+
+.callout a,
+.callout code {
+  color: inherit;
+}
+
+.callout > :last-child {
+  margin-bottom: 0;
+}
+
+/* Contact block on the support page. */
+.contact {
+  margin: 1.5rem 0 2rem;
+  padding: 1.25rem;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.contact h2 {
+  margin-top: 0;
+}
+
+.contact > :last-child {
+  margin-bottom: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  max-width: 100%;
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.button:hover {
+  text-decoration: underline;
+}
+
+.button--tonal {
+  background: var(--secondary-container);
+  color: var(--on-secondary-container);
+}
+
+/* Questions and answers. */
+.faq details {
+  margin: 0 0 0.5rem;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 48px;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "";
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: -0.25rem 0.25rem 0 0;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.faq details[open] > summary::after {
+  margin-top: 0.25rem;
+  transform: rotate(-135deg);
+}
+
+.faq .answer {
+  padding: 0 1.25rem 1rem;
+}
+
+.faq .answer > :last-child {
+  margin-bottom: 0;
+}
+
+/* Footer */
+
+.site-footer {
+  border-top: 1px solid var(--outline-variant);
+  background: var(--surface-container-low);
+  color: var(--on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.site-footer__inner {
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.site-footer p {
+  margin-bottom: 0.5rem;
+}
+
+.site-footer ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer li + li {
+  margin-top: 0;
+}
+
+.site-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+@media (min-width: 600px) {
+  .summary,
+  .contact {
+    padding: 1.5rem;
+  }
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .skip-link,
+  .site-header nav,
+  .toc,
+  .site-footer ul {
+    display: none;
+  }
+
+  .site-header,
+  .site-footer,
+  .summary,
+  .card,
+  .callout,
+  .contact,
+  .faq details {
+    border: 1px solid #888888;
+    background: none;
+    color: #000000;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  .page a[href^="http"]::after,
+  .page a[href^="mailto:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.875em;
+  }
+}
